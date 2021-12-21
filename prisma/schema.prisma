@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Drivers {
+  id       String @id @default(uuid())
+  name     String @unique
+  photoUrl String
+  username String @unique
+  password String
+
+  Delivery Delivery[]
+  @@map("drivers")
+}
+
+model Customers {
+  id       String @id @default(uuid())
+  name     String
+  username String @unique
+  password String
+
+  Delivery Delivery[]
+  @@map("customers")
+}
+
+model Delivery {
+  id          String    @id @default(uuid())
+  customer    Customers @relation(fields: [customer_id], references: [id])
+  customer_id String
+  driver      Drivers   @relation(fields: [driver_id], references: [id])
+  driver_id   String
+  items       String
+  createdAt   DateTime
+  deliversAt  DateTime
+
+  @@map("deliveries")
+}
