@@ -20,13 +20,13 @@ export class CustomerRepository {
             throw new Error("Username already exists");
         }
 
-        const hashPassowrd = await hash(password, 10);
+        const hashPassword = await hash(password, 10);
 
         const customer = await prisma.customers.create({
             data: {
                 username,
                 name,
-                password: hashPassowrd
+                password: hashPassword
             },
           })
 
